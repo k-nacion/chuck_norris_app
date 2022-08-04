@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:chuck_norris_app/chuck_norris/data/data_sources/joke_local_data_source.dart';
-import 'package:chuck_norris_app/chuck_norris/data/data_sources/joke_remote_data_source.dart';
+import 'package:chuck_norris_app/chuck_norris/data/local_data_source/joke_local_data_source.dart';
 import 'package:chuck_norris_app/chuck_norris/data/models/joke_model.dart';
+import 'package:chuck_norris_app/chuck_norris/data/remote_data_source/joke_remote_data_source.dart';
 import 'package:chuck_norris_app/chuck_norris/data/repositories/joke_repository_impl.dart';
 import 'package:chuck_norris_app/chuck_norris/domain/entities/joke.dart';
 import 'package:chuck_norris_app/core/errors/exception.dart';
@@ -20,7 +20,7 @@ class MockJokeLocalDataSource extends Mock implements JokeLocalDataSource {}
 
 class MockJokeRemoteDataSource extends Mock implements JokeRemoteDataSource {}
 
-class FakeJoke extends Fake implements Joke {}
+class FakeJokeModel extends Fake implements JokeModel {}
 
 void main() {
   group('JokeRepositoryImpl class', () {
@@ -40,7 +40,7 @@ void main() {
       );
     });
 
-    setUpAll(() => registerFallbackValue(FakeJoke()));
+    setUpAll(() => registerFallbackValue(FakeJokeModel()));
 
     void runOnline(void Function() body) => group('device is ONLINE', () {
           setUp(() => when(() => mockNetworkInfo.isConnected()).thenAnswer((_) async => true));
