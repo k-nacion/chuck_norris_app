@@ -1,5 +1,5 @@
-import 'package:chuck_norris_app/chuck_norris/data/data_sources/joke_local_data_source.dart';
-import 'package:chuck_norris_app/chuck_norris/data/data_sources/joke_remote_data_source.dart';
+import 'package:chuck_norris_app/chuck_norris/data/local_data_source/joke_local_data_source.dart';
+import 'package:chuck_norris_app/chuck_norris/data/remote_data_source/joke_remote_data_source.dart';
 import 'package:chuck_norris_app/chuck_norris/domain/entities/joke.dart';
 import 'package:chuck_norris_app/chuck_norris/domain/repositories/joke_repository.dart';
 import 'package:chuck_norris_app/core/errors/exception.dart';
