@@ -21,7 +21,8 @@ void main() {
     group('call()', () {
       const Either<Failure, Joke> tSuccess = Right(Joke(id: 'test', url: 'test', value: 'test'));
       const Either<Failure, Joke> tServerFailed = Left(ServerFailure());
-      const Either<Failure, Joke> tCacheFailed = Left(CacheFailure());
+      const Either<Failure, Joke> tNoJokeFailed = Left(NoJokeFailure());
+      const Either<Failure, Joke> tUnableToCachedFailed = Left(UnableToCacheFailure());
 
       test(
         'should call the repository  and only call getRandomJoke from it. ',
@@ -58,14 +59,21 @@ void main() {
       );
 
       test(
-        'should return left side of either indicating that it failed something on the local cache data',
+        'should return NoJokeFailure when failed fetching data',
         () async {
-          when(() => mockJokeRepository.getRandomJoke()).thenAnswer((_) async => tCacheFailed);
+          when(() => mockJokeRepository.getRandomJoke()).thenAnswer((_) async => tNoJokeFailed);
 
           final actual = await useCaseSUT.call();
 
-          expect(actual, tCacheFailed);
+          expect(actual, tNoJokeFailed);
           verify(() => mockJokeRepository.getRandomJoke());
+        },
+      );
+
+      test(
+        'should return UnableToCacheFailure when storing of data locally failed',
+        () async {
+          when(() => mockJokeRepository.getRandomJoke()).thenAnswer((_) async => tUnableToCachedFailed);
         },
       );
     });

@@ -40,13 +40,13 @@ void main() {
       );
 
       test(
-        'should throw CacheException when SharedPreferences.setString() returns false',
+        'should throw UnableToCacheException when SharedPreferences.setString() returns false',
         () async {
           when(() => mockSharedPreferences.setString(any(), any())).thenAnswer((_) async => false);
 
           void function() async => await sut.cacheJoke(tJokeModel);
 
-          expect(function, throwsA(isA<CacheException>()));
+          expect(function, throwsA(isA<UnableToCacheException>()));
           verify(() => mockSharedPreferences.setString(any(), any()));
         },
       );
@@ -67,13 +67,13 @@ void main() {
       );
 
       test(
-        'should be able to throw CacheException when SharedPreference.getString returns null',
+        'should be able to throw NoJokeException when SharedPreference.getString returns null',
         () async {
           when(() => mockSharedPreferences.getString(CACHE_JOKE_KEY)).thenReturn(null);
 
           void functionToTest() async => await sut.getCachedJoke();
 
-          expect(functionToTest, throwsA(isA<CacheException>()));
+          expect(functionToTest, throwsA(isA<NoJokeException>()));
           expect(mockSharedPreferences.getString(CACHE_JOKE_KEY), isNull);
           verify(() => mockSharedPreferences.getString(CACHE_JOKE_KEY));
         },

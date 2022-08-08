@@ -29,10 +29,12 @@ class JokeRepositoryImpl implements JokeRepository {
       final remoteData = await remoteDataSource.getRandomJoke();
       localDataSource.cacheJoke(remoteData);
       return Right(remoteData);
-    } on CacheException {
-      return const Left(CacheFailure());
+    } on NoJokeException {
+      return const Left(NoJokeFailure());
     } on ServerException {
       return const Left(ServerFailure());
+    } on UnableToCacheException {
+      return const Left(UnableToCacheFailure());
     }
   }
 }

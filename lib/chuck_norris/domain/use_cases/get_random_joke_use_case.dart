@@ -11,6 +11,13 @@ class GetRandomJokeUseCase extends UseCase<Joke, void> {
     required JokeRepository repository,
   }) : _repository = repository;
 
+  ///Fetches a random Chuck Norris joke.
+  ///
+  /// Returns ` ServerFailure` if connection in the internet failed.
+  ///
+  /// Returns [CacheFailure] if unsuccessful on caching or retrieving cached data.
+  ///
+  /// Returns [Joke] if successful.
   @override
   Future<Either<Failure, Joke>> call([void param]) async {
     return await _repository.getRandomJoke();

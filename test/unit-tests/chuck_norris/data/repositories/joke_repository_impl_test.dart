@@ -117,14 +117,14 @@ void main() {
         );
 
         test(
-          'should return a CacheFailure when unable to cache the current joke',
+          'should return a UnableToCacheException when unable to cache the current joke',
           () async {
-            when(() => mockJokeLocalDataSource.cacheJoke(any())).thenThrow(CacheException());
+            when(() => mockJokeLocalDataSource.cacheJoke(any())).thenThrow(UnableToCacheException());
             when(() => mockJokeRemoteDataSource.getRandomJoke()).thenAnswer((_) async => tJokeModel);
 
             final actual = await sut.getRandomJoke();
 
-            expect(actual, const Left(CacheFailure()));
+            expect(actual, const Left(UnableToCacheFailure()));
             expect(await mockNetworkInfo.isConnected(), true);
             verify(() => mockNetworkInfo.isConnected());
             verify(() => mockJokeRemoteDataSource.getRandomJoke());
@@ -153,13 +153,13 @@ void main() {
         );
 
         test(
-          'should return the a CacheFailure when fetching the last cache data has error in process',
+          'should return the a NoJokeException when nothing is found in sharedpreference',
           () async {
-            when(() => mockJokeLocalDataSource.getCachedJoke()).thenThrow(CacheException());
+            when(() => mockJokeLocalDataSource.getCachedJoke()).thenThrow(NoJokeException());
 
             final actual = await sut.getRandomJoke();
 
-            expect(actual, const Left(CacheFailure()));
+            expect(actual, const Left(NoJokeFailure()));
             expect(await mockNetworkInfo.isConnected(), false);
             verify(() => mockNetworkInfo.isConnected());
             verify(() => mockJokeLocalDataSource.getCachedJoke());

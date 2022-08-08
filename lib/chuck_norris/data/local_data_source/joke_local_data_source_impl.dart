@@ -12,7 +12,7 @@ class JokeLocalDataSourceImpl implements JokeLocalDataSource {
     final serializedJoke = _sharedPreferences.getString(CACHE_JOKE_KEY);
 
     if (serializedJoke == null) {
-      throw CacheException();
+      throw NoJokeException();
     }
 
     return JokeModel.fromMap(jsonDecode(serializedJoke));
@@ -20,5 +20,7 @@ class JokeLocalDataSourceImpl implements JokeLocalDataSource {
 
   @override
   Future<void> cacheJoke(JokeModel jokeModel) async =>
-      await _sharedPreferences.setString(CACHE_JOKE_KEY, jsonEncode(jokeModel.toMap())) ? {} : {throw CacheException()};
+      await _sharedPreferences.setString(CACHE_JOKE_KEY, jsonEncode(jokeModel.toMap()))
+          ? {}
+          : {throw UnableToCacheException()};
 }
