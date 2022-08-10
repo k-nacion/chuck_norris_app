@@ -26,11 +26,10 @@ class ChuckNorrisBloc extends Bloc<ChuckNorrisEvent, ChuckNorrisState> {
     final randomJoke = await _getRandomJokeUseCase.call();
     await randomJoke.fold(
       (failure) => Future(() {
-        if (failure is NoJokeFailure) {
+        if (failure is NoJokeFailure)
           emit(const ChuckNorrisState_Error(message: 'No joke yet.'));
-        } else if (failure is UnableToCacheFailure) {
+        else if (failure is UnableToCacheFailure)
           emit(const ChuckNorrisState_Error(message: 'Unable to save joke offline.'));
-        }
       }),
       (success) => Future(() async {
         emit(ChuckNorrisState_Loaded(joke: success.value));

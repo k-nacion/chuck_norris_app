@@ -1,3 +1,4 @@
+import 'package:chuck_norris_app/chuck_norris/dependency_injection.dart';
 import 'package:chuck_norris_app/chuck_norris/presentation/bloc/chuck_norris/chuck_norris_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,12 +12,12 @@ class MainPage extends StatelessWidget {
         body: MultiBlocProvider(
       providers: [
         BlocProvider<ChuckNorrisBloc>(
-          create: (context) => ChuckNorrisBloc(getRandomJokeUseCase: null),
+          create: (context) => sl<ChuckNorrisBloc>(),
         ),
       ],
       child: BlocBuilder<ChuckNorrisBloc, ChuckNorrisState>(
         builder: (context, state) {
-          return Container();
+          return const MainPage();
         },
       ),
     ));
